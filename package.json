@@ -1,0 +1,28 @@
+{
+  "name": "mi-primera-api",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/AgustinRueda06/mi-primera-api#readme",
+  "bugs": {
+    "url": "https://github.com/AgustinRueda06/mi-primera-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgustinRueda06/mi-primera-api.git"
+  },
+  "license": "ISC",
+  "author": "Agustin Rueda",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
