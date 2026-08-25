@@ -1,8 +1,14 @@
 import express from "express";
+import mongoose from "mongoose";    
 
 const app = express();
 
 app.use(express.json());
+
+
+await mongoose.connect("mongodb://localhost:27017/PrimeraBDD");
+console.log("Conectado a MongoDB");
+
 
 app.get("/", (req, res) => {
     res.send("Hola desde GET en la API"); 
