@@ -1,27 +1,63 @@
-import express from "express";
-import mongoose from "mongoose";    
+import express from 'express';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import config from './config.js';
+
+// 1. Cargar e inicializar las dependencias
+import './dependencies.js';
+import { getDependency } from './dependency.js';
+
+// 2. Importar los routers de la API
+import { configureLoginRouter } from './api/login_router.js';
+import { configureUserRouter } from './api/user_router.js';
+import { configureProductoRouter } from './api/producto_router.js';
+import  errorHandler  from './middlewares/error_middleware.js';
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
+// Middleware para parsear JSON
 app.use(express.json());
 
+// Conexión a MongoDB
+await mongoose.connect(config.dbConnection);
+console.log('Conectado a MongoDB');
 
-await mongoose.connect("mongodb://localhost:27017/PrimeraBDD");
-console.log("Conectado a MongoDB");
+// Crear usuario admin inicial si no existe
+const userService = getDependency('userService');
+try {
+    await userService.add({
+        user_name: 'admin',
+        password: 'Admin123',
+        display_name: 'Administrador',
+        email: 'admin@example.com',
+        role: 'admin',
+    });
+    console.log('Usuario admin creado');
+} catch (err) {
+    console.log('Usuario admin ya existe, se omite creación');
+}
 
-
-app.get("/", (req, res) => {
-    res.send("Hola desde GET en la API"); 
+// Ruta base de prueba
+app.get('/', (req, res) => {
+  res.json({ message: 'API de DE_A2026 funcionando correctamente' });
 });
 
-app.post("/users", (req, res) => {
-    const data = req.body;
-    res.json({
-        mensaje: "Datos recibidos por POST",
-        datos: data
-    }); 
-});
+// 3. Montar las rutas
+const loginRouter = express.Router();
+configureLoginRouter(loginRouter);
+app.use('/api/login', loginRouter);
 
-app.listen(3000, () => {
-    console.log("Servidor escuchando en http://localhost:3000");
-}); 
+configureUserRouter(app);
+
+const productoRouterInstance = express.Router();
+configureProductoRouter(productoRouterInstance);
+app.use('/api/producto', productoRouterInstance);
+
+app.use (errorHandler);
+
+// Levantar el servidor
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});

@@ -1,0 +1,46 @@
+# @name login
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "user_name": "admin",
+  "password": "Admin123"
+}
+
+###
+
+POST http://localhost:3000/api/producto
+Authorization: Bearer {{login.response.body.authorizationToken}}
+Content-Type: application/json
+
+{
+  "nombre": "Tafirol",
+  "descripcion": "Este es un producto de prueba",
+  "precio": 10,
+  "stock": 100
+}
+###
+POST http://localhost:3000/api/producto
+Authorization: Bearer {{login.response.body.authorizationToken}}    
+Content-Type: application/json
+
+{
+  "nombre": "Ibuprofeno",
+  "descripcion": "Este es otro producto de prueba",
+  "precio": 5.99,
+  "stock": 50
+}
+###
+POST http://localhost:3000/api/producto
+Authorization: Bearer "811b5cd8667459be3505128f6caff32a01a89e474063f9a2e62a6feec6d26e6a"
+Content-Type: application/json
+
+{
+  "nombre": "Prueba Denegada",
+  "descripcion": "Intento de creacion por usuario común",
+  "precio": 99.99,
+  "stock": 10
+}
+###
+GET http://localhost:3000/api/producto
+Authorization: Bearer {{login.response.body.authorizationToken}}
