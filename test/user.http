@@ -27,11 +27,11 @@ Content-Type: application/json
   "email": "maria23062006@example.com"
 }
 ###
-DELETE http://localhost:3000/api/users/agusrueda2
+DELETE http://localhost:3000/api/users/Maria
 Authorization: Bearer {{login.response.body.authorizationToken}}
 
 ###
-PATCH http://localhost:3000/api/users/agusrueda2
+PATCH http://localhost:3000/api/users/Lucas
 Authorization: Bearer {{login.response.body.authorizationToken}}
 Content-Type: application/json
 
