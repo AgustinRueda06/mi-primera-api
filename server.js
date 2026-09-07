@@ -29,14 +29,18 @@ const userService = getDependency('userService');
 try {
     await userService.add({
         user_name: 'admin',
-        password: 'Admin123',
+      password: 'Admin123!',
         display_name: 'Administrador',
         email: 'admin@example.com',
         role: 'admin',
     });
     console.log('Usuario admin creado');
 } catch (err) {
-    console.log('Usuario admin ya existe, se omite creación');
+    if (err.message === 'El nombre de usuario ya existe') {
+      console.log('Usuario admin ya existe, se omite creación');
+    } else {
+      console.error('No se pudo crear el usuario admin:', err.message);
+    }
 }
 
 // Ruta base de prueba

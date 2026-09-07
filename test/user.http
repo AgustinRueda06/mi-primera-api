@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "user_name": "admin",
-  "password": "1234"
+  "password": "Admin123!"
 }
 
 ###
@@ -16,29 +16,27 @@ Authorization: Bearer {{login.response.body.authorizationToken}}
 ###
 
 
+# @name createUser
 POST http://localhost:3000/api/users
 Authorization: Bearer {{login.response.body.authorizationToken}}
 Content-Type: application/json
 
 {
-  "user_name": "Maria",
-  "password": "1234",
-  "display_name": "Maria Saavedra",
+  "user_name": "maria",
+  "password": "Maria123!",
+  "display_name": "maria",
   "email": "maria23062006@example.com"
 }
 ###
-DELETE http://localhost:3000/api/users/Maria
-Authorization: Bearer {{login.response.body.authorizationToken}}
-
-###
-PATCH http://localhost:3000/api/users/Lucas
+PATCH http://localhost:3000/api/users/maria
 Authorization: Bearer {{login.response.body.authorizationToken}}
 Content-Type: application/json
 
 {
-  "user_name": "Lucas",
-  "password": "1234",
-  "display_name": "Lucas Despous",
+  "display_name": "Maria Saavedra Actualizada",
   "email": "lolo@example.com",
   "role": "user"
 }
+###
+DELETE http://localhost:3000/api/users/maria
+Authorization: Bearer {{login.response.body.authorizationToken}}

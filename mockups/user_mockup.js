@@ -1,8 +1,8 @@
 export class UserMockup {
     users = [
-        { id: 1, name: "agus", password: "1234" },
-        { id: 2, name: "lolo", password: "5678" },
-        { id: 3, name: "nico", password: "abcd" }
+        { id: 1, name: "admin", password: "Admin123!" },
+        { id: 2, name: "lolo", password: "1234" },
+        { id: 3, name: "maria", password: "1234" }
     ];
 
     constructor() {

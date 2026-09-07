@@ -17,7 +17,7 @@ export function configureProductoRouter(router) {
         }
     });
 //guarda lo obtenido en mongo
-    router.post("/", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["user"]), async (req, res) => {
+    router.post("/", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["admin"]), async (req, res) => {
         try {
             const nuevoProducto = await productService.add(req.body);
             res.status(201).json({ message: "Producto creado correctamente", producto: nuevoProducto });
@@ -27,21 +27,27 @@ export function configureProductoRouter(router) {
     });
 
 
-    router.patch("/", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["user"]), async (req, res) => {
+    router.patch("/:id", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["admin"]), async (req, res) => {
         try {
-            const nuevoProducto = await productService.add(req.body);
-            res.status(201).json({ message: "Producto creado correctamente", producto: nuevoProducto });
+            const productoActualizado = await productService.update(req.params.id, req.body);
+            if (!productoActualizado) {
+                return res.status(404).json({ message: "Producto no encontrado" });
+            }
+            res.json({ message: "Producto actualizado correctamente", producto: productoActualizado });
         } catch (error) {
-            res.status(400).json({ message: "Error al crear producto", error: error.message });
+            res.status(400).json({ message: "Error al actualizar producto", error: error.message });
         }
     });
 
-    router.delete("/", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["user"]), async (req, res) => {
+    router.delete("/:id", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["admin"]), async (req, res) => {
         try {
-            const nuevoProducto = await productService.add(req.body);
-            res.status(201).json({ message: "Producto creado correctamente", producto: nuevoProducto });
+            const productoEliminado = await productService.delete(req.params.id);
+            if (!productoEliminado) {
+                return res.status(404).json({ message: "Producto no encontrado" });
+            }
+            res.json({ message: "Producto eliminado correctamente", producto: productoEliminado });
         } catch (error) {
-            res.status(400).json({ message: "Error al crear producto", error: error.message });
+            res.status(400).json({ message: "Error al eliminar producto", error: error.message });
         }
     });
 

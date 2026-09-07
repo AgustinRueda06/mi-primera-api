@@ -38,12 +38,14 @@ export class UserServices {
             data.password = bcrypt.hashSync(data.password, 10);
         }
 
-        // Busca por el campo user_name en lugar de _id
-        return await this.userRepo.findOneAndUpdate({ user_name: username }, data, { new: true });
+        return await this.userRepo.findOneAndUpdate(
+            { user_name: username },
+            data,
+            { new: true, runValidators: true }
+        );
     }
 
     async delete(username) {
-        // Busca por el campo user_name en lugar de _id
         return await this.userRepo.findOneAndDelete({ user_name: username });
     }
 }

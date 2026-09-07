@@ -4,11 +4,12 @@ Content-Type: application/json
 
 {
   "user_name": "admin",
-  "password": "Admin123"
+  "password": "Admin123!"
 }
 
 ###
 
+# @name createProduct
 POST http://localhost:3000/api/producto
 Authorization: Bearer {{login.response.body.authorizationToken}}
 Content-Type: application/json
@@ -20,8 +21,20 @@ Content-Type: application/json
   "stock": 100
 }
 ###
+PATCH http://localhost:3000/api/producto/{{createProduct.response.body.producto._id}}
+Authorization: Bearer {{login.response.body.authorizationToken}}
+Content-Type: application/json
+
+{
+  "precio": 12.5,
+  "stock": 80
+}
+###
+DELETE http://localhost:3000/api/producto/{{createProduct.response.body.producto._id}}
+Authorization: Bearer {{login.response.body.authorizationToken}}
+###
 POST http://localhost:3000/api/producto
-Authorization: Bearer {{login.response.body.authorizationToken}}    
+Authorization: Bearer {{login.response.body.authorizationToken}}
 Content-Type: application/json
 
 {
@@ -29,17 +42,6 @@ Content-Type: application/json
   "descripcion": "Este es otro producto de prueba",
   "precio": 5.99,
   "stock": 50
-}
-###
-POST http://localhost:3000/api/producto
-Authorization: Bearer "811b5cd8667459be3505128f6caff32a01a89e474063f9a2e62a6feec6d26e6a"
-Content-Type: application/json
-
-{
-  "nombre": "Prueba Denegada",
-  "descripcion": "Intento de creacion por usuario común",
-  "precio": 99.99,
-  "stock": 10
 }
 ###
 GET http://localhost:3000/api/producto

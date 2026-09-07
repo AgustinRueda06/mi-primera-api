@@ -6,22 +6,35 @@ export function configureUserRouter(router) {
     console.log("Configurando rutas de usuarios...");
 
     // GET: Obtener lista de usuarios
-    router.get("/api/users", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["admin"]), async (req, res) => {
-        const userService = getDependency("userService");
-        const users = await userService.getList();
-        res.json(users.map(user => ({
-            username: user.user_name,
-            displayName: user.display_name,
-            email: user.email,
-            role: user.role,
-        })));
+    router.get("/api/users", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["admin"]), async (req, res, next) => {
+        try {
+            const users = await getDependency("userService").getList();
+            res.json(users.map(user => ({
+                id: user._id,
+                user_name: user.user_name,
+                display_name: user.display_name,
+                email: user.email,
+                role: user.role,
+            })));
+        } catch (error) {
+            next(error);
+        }
     });
 
     // POST: Crear usuario
-    router.post("/api/users", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["admin"]), async (req, res) => {
-        const user = await getDependency("userService").add(req.body);
-        if (!user) return res.status(409).json({ error: "Usuario ya existe" });
-        res.status(201).json({ id: user.id, name: user.name });
+    router.post("/api/users", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["admin"]), async (req, res, next) => {
+        try {
+            const user = await getDependency("userService").add(req.body);
+            res.status(201).json({
+                id: user._id,
+                user_name: user.user_name,
+                display_name: user.display_name,
+                email: user.email,
+                role: user.role,
+            });
+        } catch (error) {
+            next(error);
+        }
     });
 
     // PATCH: Modificar usuario por nombre (Ruta corregida: /api/users/:name)
@@ -53,12 +66,15 @@ export function configureUserRouter(router) {
     });
 
     // DELETE: Eliminar usuario por nombre
-    router.delete("/api/users/:name", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["admin"]), async (req, res) => {
-        const userService = getDependency("userService");
-        const deletedUser = await userService.delete(req.params.name);
-        if (!deletedUser) {
-            return res.status(404).json({ error: "User not found" });
+    router.delete("/api/users/:name", checkAuthorizationTokenMiddleware(), checkRoleMiddleware(["admin"]), async (req, res, next) => {
+        try {
+            const deletedUser = await getDependency("userService").delete(req.params.name);
+            if (!deletedUser) {
+                return res.status(404).json({ error: "Usuario no encontrado" });
+            }
+            res.json({ message: "Usuario eliminado", name: deletedUser.user_name });
+        } catch (error) {
+            next(error);
         }
-        res.json({ message: "Usuario eliminado", name: deletedUser.user_name });
     });
 }
