@@ -11,38 +11,47 @@ Content-Type: application/json
 
 # @name createProduct
 POST http://localhost:3000/api/producto
-Authorization: Bearer {{login.response.body.authorizationToken}}
+Authorization: Bearer {{login.response.body.$.authorizationToken}}
 Content-Type: application/json
 
 {
-  "nombre": "Tafirol",
+  "nombre": "JUEGOS DE PLAY 5",
   "descripcion": "Este es un producto de prueba",
-  "precio": 10,
+  "precio": 200,
   "stock": 100
 }
 ###
-PATCH http://localhost:3000/api/producto/{{createProduct.response.body.producto._id}}
-Authorization: Bearer {{login.response.body.authorizationToken}}
+PATCH http://localhost:3000/api/producto/{{createProduct.response.body.$.producto._id}}
+Authorization: Bearer {{login.response.body.$.authorizationToken}}
 Content-Type: application/json
 
 {
-  "precio": 12.5,
+  "precio": 700,
   "stock": 80
 }
 ###
-DELETE http://localhost:3000/api/producto/{{createProduct.response.body.producto._id}}
-Authorization: Bearer {{login.response.body.authorizationToken}}
+DELETE http://localhost:3000/api/producto/{{createProduct.response.body.$.producto._id}}
+Authorization: Bearer {{login.response.body.$.authorizationToken}}
+
 ###
+# 2DO PRODUCTO
+# @name createProduct2
 POST http://localhost:3000/api/producto
-Authorization: Bearer {{login.response.body.authorizationToken}}
+Authorization: Bearer {{login.response.body.$.authorizationToken}}
 Content-Type: application/json
 
 {
-  "nombre": "Ibuprofeno",
+  "nombre": "JUEGOS DE PLAY 4",
   "descripcion": "Este es otro producto de prueba",
-  "precio": 5.99,
+  "precio": 150,
   "stock": 50
 }
 ###
+PATCH http://localhost:3000/api/producto/{{createProduct2.response.body.$.producto._id}}
+Authorization: Bearer {{login.response.body.$.authorizationToken}}    
+###
+DELETE http://localhost:3000/api/producto/{{createProduct2.response.body.$.producto._id}}
+Authorization: Bearer {{login.response.body.$.authorizationToken}}
+###
 GET http://localhost:3000/api/producto
-Authorization: Bearer {{login.response.body.authorizationToken}}
+Authorization: Bearer {{login.response.body.$.authorizationToken}}

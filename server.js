@@ -45,7 +45,7 @@ try {
 
 // Ruta base de prueba
 app.get('/', (req, res) => {
-  res.json({ message: 'API de DE_A2026 funcionando correctamente' });
+  res.json({ message: 'API de agusrueda funcionando correctamente' });
 });
 
 // 3. Montar las rutas

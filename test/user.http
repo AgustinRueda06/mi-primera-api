@@ -23,20 +23,49 @@ Content-Type: application/json
 
 {
   "user_name": "maria",
-  "password": "Maria123!",
+  "password": "maria1234",
   "display_name": "maria",
   "email": "maria23062006@example.com"
 }
+
 ###
 PATCH http://localhost:3000/api/users/maria
 Authorization: Bearer {{login.response.body.authorizationToken}}
 Content-Type: application/json
 
 {
-  "display_name": "Maria Saavedra Actualizada",
-  "email": "lolo@example.com",
+  "display_name": "Maria Actualizada",
+  "email": "maria@example.com",
   "role": "user"
 }
 ###
 DELETE http://localhost:3000/api/users/maria
+Authorization: Bearer {{login.response.body.authorizationToken}}
+
+###
+# USUARIO 2
+
+# @name createUser2
+POST http://localhost:3000/api/users
+Authorization: Bearer {{login.response.body.authorizationToken}}
+Content-Type: application/json
+
+{
+  "user_name": "lolo",
+  "password": "lolo1234",
+  "display_name": "lolo",
+  "email": "lolo@example.com"
+}
+###
+PATCH http://localhost:3000/api/users/lolo
+Authorization: Bearer {{login.response.body.authorizationToken}}
+Content-Type: application/json
+
+{
+  "display_name": "lolo Actualizado",
+  "email": "lolo@example.com",
+  "role": "user"
+}
+###
+DELETE http://localhost:3000/api/users/lolo
 Authorization: Bearer {{login.response.body.authorizationToken}}
